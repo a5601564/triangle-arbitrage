@@ -25,5 +25,13 @@ PRO = {
         {
             "ACCESS_KEY": access_key,
             "SECRET_KEY": secret_key,
-        }
+        },
+}
+
+GATE = {
+    "USDT_1":
+        {
+            "ACCESS_KEY": access_key,
+            "SECRET_KEY": secret_key,
+        },
 }
