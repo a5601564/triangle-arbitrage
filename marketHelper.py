@@ -43,6 +43,27 @@ class Market:
                     return exchangeConnection.huobi.huobiService.getDepth(uh.HUOBI_COIN_TYPE_BTC, "cny")
             else:
                 return None
+        elif self.market_name == "gate":
+            print("gate run")
+            if quote_cur == "usdt":
+                if base_cur == "eth":
+                    return exchangeConnection.bitex.bitexService.BitexServiceAPIKey().get_depth("ethcny","step0").get("tick")
+                elif base_cur == "ddd":
+                    return exchangeConnection.bitex.bitexService.BitexServiceAPIKey().get_depth("etccny","step0").get(
+                        "tick")
+                else:
+                    return None
+            elif quote_cur == "btc":
+                if base_cur == "eth":
+                    return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("ethbtc").get("tick")
+                elif base_cur == "etc":
+                    return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("etcbtc").get("tick")
+                elif base_cur == "ltc":
+                    return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("ltcbtc").get("tick")
+                elif base_cur == "cny":
+                    return exchangeConnection.huobi.huobiService.getDepth(uh.HUOBI_COIN_TYPE_BTC, "cny")
+            else:
+                return None
         else:
             return None
 
