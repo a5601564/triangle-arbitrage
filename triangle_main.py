@@ -12,7 +12,7 @@ import math
 from utils.helper import *
 
 # 设置logging
-# logger = logging.getLogger()
+logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
 # main_log_handler = logging.FileHandler("log/triangle_main_{0}.log".format(int(time.time())), mode="w", encoding="utf-8")
 # main_log_handler.setLevel(logging.DEBUG)
@@ -31,7 +31,7 @@ class Triangle:
         可以获得多少单位的quote currency（比如BTC）。
         当LTC对BTC的价格上涨时，同等单位的LTC能够兑换的BTC是增加的，而同等单位的BTC能够兑换的LTC是减少的。
     """
-    def __init__(self, base_cur="ltc", quote_cur="btc", mid_cur="cny", interval=10):
+    def __init__(self, base_cur="ltc", quote_cur="btc", mid_cur="usdt", interval=10):
         """
         初始化
         :param base_cur:  基准资产
@@ -83,18 +83,25 @@ class Triangle:
                 huobi_market.market_detail(self.base_cur, self.quote_cur)
             market_price_sell_1 = \
                 self.market_price_tick["{0}_{1}".format(self.base_cur, self.quote_cur)].get("asks")[0][0]
+
             market_price_buy_1 = \
                 self.market_price_tick["{0}_{1}".format(self.base_cur, self.quote_cur)].get("bids")[0][0]
+
             self.market_price_tick["{0}_{1}".format(self.base_cur, self.mid_cur)] = \
                 huobi_market.market_detail(self.base_cur, self.mid_cur)
+
             base_mid_price_buy_1 = \
                 self.market_price_tick["{0}_{1}".format(self.base_cur, self.mid_cur)].get("bids")[0][0]
+
             base_mid_price_sell_1 = \
                 self.market_price_tick["{0}_{1}".format(self.base_cur, self.mid_cur)].get("asks")[0][0]
+
             self.market_price_tick["{0}_{1}".format(self.quote_cur, self.mid_cur)] = \
                 huobi_market.market_detail(self.quote_cur, self.mid_cur)
+
             quote_mid_price_sell_1 = \
                 self.market_price_tick["{0}_{1}".format(self.quote_cur, self.mid_cur)].get("asks")[0][0]
+
             quote_mid_price_buy_1 = \
                 self.market_price_tick["{0}_{1}".format(self.quote_cur, self.mid_cur)].get("bids")[0][0]
             # 检查正循环套利

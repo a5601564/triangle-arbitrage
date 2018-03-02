@@ -39,7 +39,7 @@ class Market:
                     return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("etcbtc").get("tick")
                 elif base_cur == "ltc":
                     ret=gate.orderBook("ltc_btc")
-                    return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("ltcbtc").get("tick")
+                    return ret
                 elif base_cur == "cny":
                     return exchangeConnection.huobi.huobiService.getDepth(uh.HUOBI_COIN_TYPE_BTC, "cny")
             else:
