@@ -5,7 +5,7 @@ import exchangeConnection.huobi.huobiService
 import exchangeConnection.bitex.bitexService
 import exchangeConnection.pro.proService
 import utils.helper as uh
-
+from exchangeConnection.gate.Client import gate
 
 # 包装一个不同市场的统一接口 方便同一套套利
 class Market:
@@ -38,6 +38,7 @@ class Market:
                 elif base_cur == "etc":
                     return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("etcbtc").get("tick")
                 elif base_cur == "ltc":
+                    ret=gate.orderBook("ltc_btc")
                     return exchangeConnection.pro.proService.ProServiceAPIKey().get_depth("ltcbtc").get("tick")
                 elif base_cur == "cny":
                     return exchangeConnection.huobi.huobiService.getDepth(uh.HUOBI_COIN_TYPE_BTC, "cny")

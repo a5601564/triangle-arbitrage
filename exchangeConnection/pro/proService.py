@@ -192,8 +192,8 @@ class ProService(object):
 
 class ProServiceAPIKey(object):
     def __init__(self, key_index='CNY_1'):
-        self.access_key = None
-        self.secret_key = None
+        self.access_key = "6679bf9a-88565c91-29d1066c-6920e"
+        self.secret_key = "51127237-9092fe47-31c9dd03-742ba"
         self.key_index = key_index
         self._spot_acct_id = None
 

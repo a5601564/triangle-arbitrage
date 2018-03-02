@@ -4,43 +4,43 @@
 import http.client
 import urllib
 import json
-import hashlib
+from hashlib import sha512
 import hmac
 
-def getSign(params, secretKey):
-    bSecretKey = bytes(secretKey, encoding='utf8')
-
+def getSign(params,secretKey):
     sign = ''
-    for key in params.keys():
-        value = str(params[key])
-        sign += key + '=' + value + '&'
-    bSign = bytes(sign[:-1], encoding='utf8')
+    for key in (params.keys()):
+        sign += key + '=' + str(params[key]) +'&'
+    sign = sign[:-1]
+    my_sign = hmac.new( bytes(secretKey,encoding='utf8'),bytes(sign,encoding='utf8'), sha512).hexdigest()
+    return my_sign
 
-    mySign = hmac.new(bSecretKey, bSign, hashlib.sha512).hexdigest()
-    return mySign
 
-def httpGet(url, resource, params=''):
+def httpGet(url,resource,params=''):
     conn = http.client.HTTPSConnection(url, timeout=10)
-    conn.request("GET", resource + '/' + params)
+    conn.request("GET",resource + '/' + params )
     response = conn.getresponse()
     data = response.read().decode('utf-8')
     return json.loads(data)
 
-def httpPost(url, resource, params, apiKey, secretKey):
-     headers = {
-            "Content-type" : "application/x-www-form-urlencoded",
-            "KEY":apiKey,
-            "SIGN":getSign(params, secretKey)
-     }
+def httpPost(url,resource,params,apikey,secretkey):
+    headers = {
+        "Content-type" : "application/x-www-form-urlencoded",
+        "KEY":apikey,
+        "SIGN":getSign(params,secretkey)
+    }
+    conn = http.client.HTTPSConnection(url, timeout=10)
+    if params:
+        temp_params = urllib.parse.urlencode(params)
+    else:
+        temp_params = ''
+    conn.request("POST", resource, temp_params, headers)
+    response = conn.getresponse()
+    data = response.read().decode('utf-8')
+    params.clear()
+    conn.close()
+    return data
 
-     conn = http.client.HTTPSConnection(url, timeout=10)
 
-     tempParams = urllib.parse.urlencode(params) if params else ''
-     print(tempParams)
 
-     conn.request("POST", resource, tempParams, headers)
-     response = conn.getresponse()
-     data = response.read().decode('utf-8')
-     params.clear()
-     conn.close()
-     return data
+

@@ -1,89 +1,87 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # encoding: utf-8
-
-'''
-Provide user specific data and interact with gate.io
-'''
+import json
 
 from exchangeConnection.gate.gateAPI import GateIO
 
-## 填写 apiKey APISECRET
-apiKey = '9CA09EC2-DF9A-4F62-B03A-CCF01C2F426D'
-secretKey = '262bfcafdcbc5ab9d7cdc2d430d8290e4520ffc7587aa2945685ae62993cc10d'
-## address
-btcAddress = 'your btc address'
+# 填写 APIKEY APISECRET
+apikey = '9CA09EC2-DF9A-4F62-B03A-CCF01C2F426D'
+secretkey = '262bfcafdcbc5ab9d7cdc2d430d8290e4520ffc7587aa2945685ae62993cc10d'
+API_URL = 'data.gate.io'
+
+gate = GateIO(API_URL,apikey,secretkey)
+
+print("GateIO")
+# 所有交易对
+print (gate.pairs())
 
 
-## Provide constants
-
-API_QUERY_URL = 'data.gate.io'
-API_TRADE_URL = 'api.gate.io'
-
-## Create a gate class instance
-
-gate_query = GateIO(API_QUERY_URL, apiKey, secretKey)
-gate_trade = GateIO(API_TRADE_URL, apiKey, secretKey)
+# 市场订单参数
+# print (gate.marketinfo())
 
 
-# Trading Pairs
-print(gate_query.pairs())
+# 交易市场详细行情
+# print (gate.marketlist())
 
 
-## Below, use general methods that query the exchange
-
-#  Market Info
-# print(gate_query.marketinfo())
-
-# Market Details
-# print(gate_query.marketlist())
-
-# Tickers
-# print(gate_query.tickers())
-# Depth
-# print(gate_query.orderBooks())
-
-# orders
-# print(gate_query.openOrders())
+# 所有交易行情
+#print (gate.tickers())
 
 
-## Below, use methods that make use of the users keys
+# 单项交易行情
+#print (gate.ticker('btc_usdt'))
 
-# Ticker
-# print(gate_query.ticker('btc_usdt'))
 
-# Market depth of pair
-# print(gate_query.orderBook('btc_usdt'))
+# 所有交易对的市场深度
+# print (gate.orderBooks())
 
-# Trade History
-# print(gate_query.tradeHistory('btc_usdt'))
 
-# Get account fund balances
-# print(gate_trade.balances())
+# 单项交易对的市场深度
+# print (gate.orderBook('btc_usdt'))
 
-# get new address
-# print(gate_trade.depositAddres('btc'))
+# 单项交易对的市场深度
+# print (gate.tradeHistory('btc_usdt'))
 
-# get deposit withdrawal history
-# print(gate_trade.depositsWithdrawals('1469092370', '1569092370'))
+# 获取账号资金
+# data=gate.balances()
+# print (data)
+# in_json = json.loads(data)
+# data=in_json.get("available")
+# ae=data["AE"]
+# print (ae)
 
-# Place order sell
-# print(gate_trade.buy('etc_btc', '0.001', '123'))
+# 获取充值地址
+# print (gate.depositAddres('btc'))
 
-# Place order sell
-# print(gate_trade.sell('etc_btc', '0.001', '123'))
+# 获取充值提现历史记录
+# print (gate.depositsWithdrawals('1469092370','1569092370'))
 
-# Cancel order
-# print(gate_trade.cancelOrder('267040896', 'etc_btc'))
 
-# Cancel all orders
-# print(gate_trade.cancelAllOrders('0', 'etc_btc'))
+# 下单交易买入
+#print (gate.buy('etc_btc','0.001','123'))
 
-# Get order status
-# print(gate_trade.getOrder('267040896', 'eth_btc'))
+# 下单交易买入
+# print (gate.sell('etc_btc','0.001','123'))
 
-# Get my last 24h trades
-# print(gate_trade.mytradeHistory('etc_btc', '267040896'))
 
-# withdraw
-# print(gate_trade.withdraw('btc', '88', btcAddress))
+# 取消下单
+# print (gate.cancelOrder('267040896','etc_btc'))
+
+# 取消所有订单
+# print (gate.cancelAllOrders('0','etc_btc'))
+
+
+# 获取下单状态
+# print (gate.getOrder('267040896','eth_btc'))
+
+
+# 获取下单状态
+# print (gate.openOrders())
+
+# 获取我的24小时内成交记录
+# print (gate.mytradeHistory('etc_btc','267040896'))
+
+
+# 提现
+# print (gate.withdraw('btc','88','your address'))
